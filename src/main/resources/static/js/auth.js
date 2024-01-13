@@ -3,8 +3,7 @@ const signupLocation = document.getElementById('signup');
 
 if(signupLocation) {
 
-    signupLocation.addEventListener('click', e => {
+    signupLocation.addEventListener('click', () => {
         location.href = '/signup';
     });
-
 }

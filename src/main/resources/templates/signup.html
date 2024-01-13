@@ -5,25 +5,55 @@
     <title>회원 가입</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/auth.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
+<script>
+    function join() {
+        var email = $("#email").val();
+        var password = $("#password").val();
+        var name = $("#name").val();
+
+        $.ajax({
+            type: 'post',
+            url: '/api/join',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "email" : email,
+                "password": password,
+                "name": name
+            }),
+            success: function() {
+                location.href = '/login';
+                console.log('success');
+            },
+            error: function() {
+                console.log('fail');
+            }
+        });
+    }
+</script>
 <body>
     <h1>JWT 회원 가입</h1>
 
-    <form method="post">
+    <form>
         <div class="mb-3">
-            <label for="emailInput" class="form-label">Email</label>
-            <input type="email" class="form-control" id="emailInput" placeholder="이메일을 입력하세요.">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요.">
         </div>
         <div class="mb-3">
-            <label for="passwordInput" class="form-label">Password</label>
-            <input type="password" class="form-control" id="passwordInput" placeholder="비밀번호를 입력하세요.">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요.">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력하세요.">
         </div>
     </form>
 
     <div class="btnGroup">
-        <button type="button" class="btn btn-primary">회원 가입</button>
+        <button type="button" class="btn btn-primary" id="join" onclick="join()">회원 가입</button>
         <p>로그인 페이지로 돌아가려면? <a href="/login">로그인으로 이동</a></p>
     </div>
-
 </body>
 </html>

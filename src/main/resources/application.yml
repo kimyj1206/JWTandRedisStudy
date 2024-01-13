@@ -5,6 +5,9 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/dbname # 확인 필요
-    username: root # 확인 필요
-    password: 1234 # 확인 필요
+    url: jdbc:mariadb://localhost:3306/users
+    username: root
+    password: 1234
+
+  mybatis:
+    mapper-locations: classpath:mapper/*.xml
