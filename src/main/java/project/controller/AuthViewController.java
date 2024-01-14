@@ -1,17 +1,14 @@
 package project.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import project.domain.User;
 import project.service.UserService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -39,12 +36,14 @@ public class AuthViewController {
         return "users";
     }
 
-    // 이메일로 회원 조회
-    @GetMapping("/users/{email}")
-    public String findById(@PathVariable String email, Model model) {
-        Optional<User> findById = userService.findById(email);
+    // 내 정보
+    @GetMapping("/userInfo/{email}")
+    public String userInfo(@PathVariable String email, Model model) {
+
+        Optional<User> findUser = userService.findById(email);
+
+        findUser.ifPresent(user -> model.addAttribute("users", user));
 
         return "userInfo";
     }
-
 }

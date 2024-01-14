@@ -4,13 +4,60 @@
     <meta charset="UTF-8">
     <title>로그인</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/auth.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500&display=swap" rel="stylesheet">
+
 </head>
+<style>
+    * {
+        font-family: 'Noto Serif KR', serif;
+        font-size: 18px;
+    }
+    h1 {
+        margin: 0;
+        text-align: center;
+        padding: 50px;
+    }
+    form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 30px;
+        flex-direction: column; /* 수직 정렬해줌 */
+        align-items: center;
+    }
+    .mb-3 {
+        margin-bottom: 10px;
+    }
+    .form-label {
+        font-weight: bold;
+    }
+    .form-control {
+        width: 100%;
+        padding: 15px;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .btnGroup {
+        text-align: center;
+    }
+    .btn {
+        padding: 10px;
+        margin: 0 15px 20px 15px;
+    }
+</style>
 <script>
+    // 회원 가입 페이지로 이동
+    function signup() {
+        location.href = '/signup';
+    }
+
+    // 로그인 처리
     function login() {
         var email = $("#email").val();
         var password = $("#password").val();
+        var token = $("#token").val();
 
         $.ajax({
             type: 'post',
@@ -19,14 +66,18 @@
             contentType: 'application/json',
             data: JSON.stringify({
                 "email" : email,
-                "password": password
+                "password": password,
+                "token": token
             }),
             success: function(data) {
                 if(data.result == 'success') {
-                    alert('로그인 완료');
+                    alert(data.message);
+                    console.log('token = ' + data.token);
                     location.href = '/users';
+
+                    localStorage.setItem("data.userEmail", data.token);
                 }else {
-                    alert('로그인 실패');
+                    alert(data.message);
                     console.log(data.message);
                 }
             },
@@ -40,7 +91,7 @@
 <body>
     <h1>JWT 로그인</h1>
 
-    <form method="post">
+    <form>
         <div class="mb-3" id="divEmail">
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요.">
@@ -49,13 +100,12 @@
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요.">
         </div>
+        <input type="hidden" id="token" name="token"/>
     </form>
 
     <div class="btnGroup">
         <button type="button" class="btn btn-primary" id="login" onclick="login()">로그인</button>
-        <button type="button" class="btn btn-primary" id="signup">회원가입</button>
+        <button type="button" class="btn btn-primary" onclick="signup()">회원가입</button>
     </div>
-
-<script src="/js/auth.js"></script>
 </body>
 </html>

@@ -2,10 +2,13 @@
 <!DOCTYPE configuration
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
 <configuration>
     <typeAliases>
         <typeAlias alias="User" type="project.domain.User"/>
     </typeAliases>
+
+
     <mappers>
         <mapper resource="mapper/UserMapper.xml"/>
     </mappers>
