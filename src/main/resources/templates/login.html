@@ -72,10 +72,8 @@
             success: function(data) {
                 if(data.result == 'success') {
                     alert(data.message);
-                    console.log('token = ' + data.token);
                     location.href = '/users';
-
-                    localStorage.setItem("data.userEmail", data.token);
+                    window.localStorage.setItem("AccessToken", data.AccessToken); // localStorage에 생성한 액세스 토큰 값 저장
                 }else {
                     alert(data.message);
                     console.log(data.message);

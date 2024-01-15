@@ -53,7 +53,10 @@
     }
 </style>
 <script>
-    function update() {
+    var accessToken = window.localStorage.getItem("AccessToken"); // 저장된 로컬 스토리지 토큰을 가져옴
+
+    // 회원 정보 수정
+    function updateInfo() {
         var email = $("#email").val();
         var password = $("#password").val();
         var name = $("#name").val();
@@ -68,10 +71,46 @@
                 "password": password,
                 "name": name
             }),
+            headers: {
+                "Authorization": "Bearer " + accessToken
+            },
             success: function(data) {
                 if(data.result == 'success') {
                     alert(data.message);
-                    location.href = '/login';
+                    location.href = '/users';
+                    window.localStorage.setItem("AccessToken", data.AccessToken); // localStorage에 생성한 액세스 토큰 값 저장
+                } else {
+                    JSON.stringify(data);
+                    alert(data.message);
+                }
+            },
+            error: function(request, status, error) {
+                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                alert('에러 발생');
+            }
+        });
+    }
+
+    // 회원 탈퇴
+    function deleteInfo() {
+        var email = $("#email").val();
+        var password = $("#password").val();
+        var name = $("#name").val();
+
+        $.ajax({
+            type: 'post',
+            url: '/api/delete/Info',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "email" : email,
+                "password": password,
+                "name": name
+            }),
+            success: function(data) {
+                if(data.result == 'success') {
+                    alert(data.message);
+                    location.href = '/users';
                 } else {
                     JSON.stringify(data);
                     alert(data.message);
@@ -93,7 +132,7 @@
 
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요." th:value='${users.email}' required>
+            <input type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요." th:value='${users.email}' required readonly>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
@@ -106,7 +145,8 @@
     </form>
 
     <div class="btnGroup">
-        <button type="button" class="btn btn-primary" id="update" onclick="update()">회원 정보 수정</button>
+        <button type="button" class="btn btn-primary" id="update" onclick="updateInfo()">회원 정보 수정</button>
+        <button type="button" class="btn btn-primary" id="delete" onclick="deleteInfo()">회원 탈퇴</button>
         <p>메인 페이지로 돌아가려면? <a href="/users">메인으로 이동</a></p>
     </div>
 </body>

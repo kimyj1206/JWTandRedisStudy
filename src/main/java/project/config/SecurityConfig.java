@@ -28,7 +28,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests()
-                .requestMatchers("/login", "/signup", "/api/join", "/api/login", "/error").permitAll()  // 해당 경로의 요청만 모든 사용자가 접근 가능
+                .requestMatchers("/login", "/signup", "/api/join", "/api/login", "/error", "/users", "/userInfo/**", "/api/**").permitAll()  // 해당 경로의 요청만 모든 사용자가 접근 가능
                 .anyRequest().authenticated() // 그 외 요청은 모두 인증이 필요함
 
                 .and()
@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .cors().disable()
                 .logout() // 로그아웃 설정
+                .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true);
 

@@ -38,10 +38,12 @@ public class UserService {
 
     public int updateUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword())); // 패스워드 암호화
+
         return userMapper.updateUser(user);
     }
 
     public int deleteUser(String email) {
+
         return userMapper.deleteUser(email);
     }
 }

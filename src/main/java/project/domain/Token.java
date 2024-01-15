@@ -8,7 +8,10 @@ import lombok.Setter;
 public class Token {
 
     private String email;
-    private String token;
+
+    private String accessToken;
+
+    private String refreshToken;
 
     public Token(User user) {
         this.email = user.getEmail();

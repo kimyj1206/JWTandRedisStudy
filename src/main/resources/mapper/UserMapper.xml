@@ -5,33 +5,33 @@
 <mapper namespace="project.mapper.UserMapper">
 
     <select id="findByAll" resultType="project.domain.User">
-        SELECT * FROM USERS
+        SELECT * FROM users
     </select>
 
     <select id="findById" parameterType="String" resultType="project.domain.User">
-        SELECT * FROM USERS
+        SELECT * FROM users
                         WHERE EMAIL = #{email}
     </select>
 
     <insert id="insertUser" parameterType="project.domain.User">
-        INSERT INTO USERS(EMAIL, PASSWORD, NAME)
+        INSERT INTO users(EMAIL, PASSWORD, NAME)
                     VALUES(#{email}, #{password}, #{name})
     </insert>
 
     <select id="selectUser" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM USERS
+        SELECT COUNT(*) FROM users
                                 WHERE EMAIL = #{email}
                                 AND PASSWORD = #{password}
     </select>
 
     <update id="updateUser" parameterType="project.domain.User">
-        UPDATE USERS SET
+        UPDATE users SET
                         NAME = #{name}
                         WHERE EMAIL = #{email}
     </update>
 
     <delete id="deleteUser" parameterType="String">
-        DELETE FROM USERS
+        DELETE FROM users
                         WHERE EMAIL = #{email}
     </delete>
 
